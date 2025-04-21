@@ -45,7 +45,7 @@ struct node* reverseList(struct node* head) {
 
 // FCFS Scheduling
 void schedule() {
-    head = reverseList(head); // reverse the list to work with list.c implementation
+    head = reverseList(head); // reverse the list to work with list.c implementation (FIFO)
 
     struct node *temp = head;
     while (temp != NULL) {
