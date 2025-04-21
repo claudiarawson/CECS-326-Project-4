@@ -20,14 +20,13 @@ struct node *head = NULL;
 
  // Function to add task (called by driver.c)
 void add(char *name, int priority, int burst) {
-    static int tid = 1;  // Unique task ID
-
+    // Initialize Task
     Task *newTask = malloc(sizeof(Task));
     newTask->name = name;
     newTask->priority = priority;
     newTask->burst = burst;
-    newTask->tid = tid++;
 
+    // list.c insert
     insert(&head, newTask);
 }
 
@@ -59,10 +58,12 @@ void schedule() {
 
         while (temp != NULL) {
             Task *t = temp->task;
-            int run_time = (t->burst > QUANTUM) ? QUANTUM : t->burst;
+            int run_time = (t->burst > QUANTUM) ? QUANTUM : t->burst; // determine run time (quantum (10) is lowest vs. remaining burst)
+            temp = temp->next;
 
+            // run for determined rr time
             run(t, run_time);
-            t->burst -= run_time;
+            t->burst -= run_time; // subtract time ran
 
             // If task is done, remove it
             if (t->burst <= 0) {

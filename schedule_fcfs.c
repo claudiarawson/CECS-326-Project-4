@@ -11,19 +11,17 @@
 
 //Your code and design here
 
-// Global head of the list
-struct node *head = NULL;
+struct node *head = NULL; // Linked List Head Pointer
 
 // Function to add task (called by driver.c)
 void add(char *name, int priority, int burst) {
-    static int tid = 1;  // Unique task ID
-
+    // Initialize Task
     Task *newTask = malloc(sizeof(Task));
     newTask->name = name;
     newTask->priority = priority;
     newTask->burst = burst;
-    newTask->tid = tid++;
 
+    // list.c insert
     insert(&head, newTask);
 }
 
@@ -47,7 +45,7 @@ struct node* reverseList(struct node* head) {
 void schedule() {
     head = reverseList(head); // reverse the list to work with list.c implementation (FIFO)
 
-    struct node *temp = head;
+    struct node *temp = head; // start at head of list and run one-by-one
     while (temp != NULL) {
         run(temp->task, temp->task->burst);
         temp = temp->next;
